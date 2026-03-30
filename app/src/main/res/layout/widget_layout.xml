@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_background">
+
+    <!-- Loading spinner -->
+    <ProgressBar
+        android:id="@+id/loading_indicator"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_gravity="center"
+        android:indeterminateTint="#AAFFFFFF"
+        android:visibility="gone" />
+
+    <!-- Main content -->
+    <LinearLayout
+        android:id="@+id/content_group"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="14dp">
+
+        <!-- Moon phase icon + decorative line row -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="4dp">
+
+            <ImageView
+                android:id="@+id/iv_moon_phase"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_moon"
+                android:layout_marginEnd="6dp" />
+
+            <TextView
+                android:id="@+id/tv_moon_phase_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#AAFFFFFF"
+                android:textSize="9sp"
+                android:letterSpacing="0.08"
+                android:text="WAXING CRESCENT" />
+
+        </LinearLayout>
+
+        <!-- Hijri Day -->
+        <TextView
+            android:id="@+id/tv_hijri_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="54sp"
+            android:fontFamily="sans-serif-light"
+            android:lineSpacingMultiplier="0.9"
+            android:text="1" />
+
+        <!-- Arabic month -->
+        <TextView
+            android:id="@+id/tv_hijri_month_ar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#CFFFFFFF"
+            android:textSize="13sp"
+            android:textDirection="rtl"
+            android:letterSpacing="0.04"
+            android:text="مُحَرَّم" />
+
+        <!-- English month -->
+        <TextView
+            android:id="@+id/tv_hijri_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#DDFFFFFF"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.06"
+            android:layout_marginTop="1dp"
+            android:text="Muharram" />
+
+        <!-- Hijri Year -->
+        <TextView
+            android:id="@+id/tv_hijri_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#99FFFFFF"
+            android:textSize="12sp"
+            android:layout_marginTop="2dp"
+            android:text="1446 AH" />
+
+        <!-- Divider -->
+        <View
+            android:layout_width="30dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginBottom="7dp"
+            android:background="#44FFFFFF" />
+
+        <!-- Gregorian date -->
+        <TextView
+            android:id="@+id/tv_gregorian_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#88FFFFFF"
+            android:textSize="10sp"
+            android:text="Mon, 1 Jan 2025" />
+
+        <!-- Source badge -->
+        <TextView
+            android:id="@+id/tv_source_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="#77FFFFFF"
+            android:textSize="9sp"
+            android:background="@drawable/badge_background"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:visibility="gone"
+            android:text="✓ Verified" />
+
+    </LinearLayout>
+
+</FrameLayout>

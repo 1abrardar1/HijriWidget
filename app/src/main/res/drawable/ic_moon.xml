@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Waxing crescent moon shape -->
+    <path
+        android:fillColor="#DDFFFFFF"
+        android:pathData="M12,3 C7.03,3 3,7.03 3,12 C3,16.97 7.03,21 12,21
+                          C14.39,21 16.55,20.04 18.12,18.46
+                          C16.5,18.8 14.77,18.6 13.2,17.82
+                          C9.6,16.04 8.07,11.71 9.85,8.11
+                          C10.63,6.54 11.93,5.37 13.44,4.67
+                          C12.97,4.56 12.49,3.5 12,3 Z" />
+</vector>
