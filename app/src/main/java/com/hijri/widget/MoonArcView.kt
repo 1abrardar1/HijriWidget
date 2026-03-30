@@ -285,11 +285,11 @@ class MoonArcView @JvmOverloads constructor(
         canvas.drawText(phaseName, centerX, pillTop + pillH * 0.66f, labelPaint)
 
         val arabicPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = Color.argb(235, 255, 220, 100)
+            color = Color.argb(245, 255, 245, 220)
             textAlign = Paint.Align.CENTER
             textSize = w * 0.043f
             typeface = Typeface.create(Typeface.DEFAULT_BOLD, Typeface.BOLD)
-            setShadowLayer(8f, 0f, 0f, Color.argb(90, 255, 220, 100))
+            setShadowLayer(19f, 0f, 0f, Color.argb(100, 255, 215, 120))
         }
 
         canvas.drawText(
