@@ -20,7 +20,6 @@ class MoonArcView @JvmOverloads constructor(
     private var animatedProgress = 0f
     private var animator: ValueAnimator? = null
 
-    // --- Paints ---
     private val skyPaint = Paint()
 
     private val starPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -59,6 +58,13 @@ class MoonArcView @JvmOverloads constructor(
         textAlign = Paint.Align.CENTER
     }
 
+    private val arabicPhasePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.argb(235, 255, 220, 100)
+        textAlign = Paint.Align.CENTER
+        typeface = Typeface.create(Typeface.DEFAULT_BOLD, Typeface.BOLD)
+        setShadowLayer(8f, 0f, 0f, Color.argb(90, 255, 220, 100))
+    }
+
     private val pillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.argb(50, 255, 255, 255)
         style = Paint.Style.FILL
@@ -80,19 +86,20 @@ class MoonArcView @JvmOverloads constructor(
         style = Paint.Style.FILL
     }
 
-    // Stars (randomised once)
     private val stars = mutableListOf<FloatArray>() // [x_frac, y_frac, radius, alpha]
 
     init {
         repeat(80) {
-            stars.add(floatArrayOf(
-                Math.random().toFloat(),
-                Math.random().toFloat() * 0.75f,
-                (0.5f + Math.random().toFloat() * 1.5f),
-                (100 + Math.random().toFloat() * 155f)
-            ))
+            stars.add(
+                floatArrayOf(
+                    Math.random().toFloat(),
+                    Math.random().toFloat() * 0.75f,
+                    (0.5f + Math.random().toFloat() * 1.5f),
+                    (100 + Math.random().toFloat() * 155f)
+                )
+            )
         }
-        setLayerType(LAYER_TYPE_SOFTWARE, null) // needed for PorterDuff
+        setLayerType(LAYER_TYPE_SOFTWARE, null)
     }
 
     private fun startAnimation() {
@@ -145,7 +152,6 @@ class MoonArcView @JvmOverloads constructor(
         for (star in stars) {
             val sx = star[0] * w
             val sy = star[1] * h
-            // Fade stars near moon
             val dist = hypot(sx - moonPos.x, sy - moonPos.y)
             val fade = (dist / 120f).coerceIn(0f, 1f)
             val twinkle = (sin(System.currentTimeMillis() * 0.002 + sx.toDouble()) * 0.3 + 0.7).toFloat()
@@ -158,7 +164,6 @@ class MoonArcView @JvmOverloads constructor(
         val horizonY = h * 0.82f
         canvas.drawLine(0f, horizonY, w, horizonY, horizonPaint)
 
-        // Subtle ground glow
         val groundShader = LinearGradient(
             0f, horizonY, 0f, h,
             intArrayOf(Color.argb(30, 100, 150, 255), Color.TRANSPARENT),
@@ -176,10 +181,10 @@ class MoonArcView @JvmOverloads constructor(
     private fun getMoonPosition(w: Float, h: Float): PointF {
         val horizonY = h * 0.82f
         val startX = w * 0.08f
-        val endX   = w * 0.92f
-        val ctrl   = getArcControlPoint(w, h)
+        val endX = w * 0.92f
+        val ctrl = getArcControlPoint(w, h)
         val t = animatedProgress
-        // Quadratic Bezier
+
         val x = (1 - t) * (1 - t) * startX + 2 * (1 - t) * t * ctrl.x + t * t * endX
         val y = (1 - t) * (1 - t) * horizonY + 2 * (1 - t) * t * ctrl.y + t * t * horizonY
         return PointF(x, y)
@@ -187,9 +192,9 @@ class MoonArcView @JvmOverloads constructor(
 
     private fun drawArcPath(canvas: Canvas, w: Float, h: Float) {
         val horizonY = h * 0.82f
-        val startX   = w * 0.08f
-        val endX     = w * 0.92f
-        val ctrl     = getArcControlPoint(w, h)
+        val startX = w * 0.08f
+        val endX = w * 0.92f
+        val ctrl = getArcControlPoint(w, h)
 
         val path = Path().apply {
             moveTo(startX, horizonY)
@@ -197,27 +202,26 @@ class MoonArcView @JvmOverloads constructor(
         }
         canvas.drawPath(path, arcPaint)
 
-        // Draw tick marks at quarter points
         val ticks = listOf(0.25f, 0.5f, 0.75f)
         val tickPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = Color.argb(80, 255, 255, 255)
             strokeWidth = 1.5f
         }
+
         for (t in ticks) {
-            val x = (1-t)*(1-t)*startX + 2*(1-t)*t*ctrl.x + t*t*endX
-            val y = (1-t)*(1-t)*horizonY + 2*(1-t)*t*ctrl.y + t*t*horizonY
+            val x = (1 - t) * (1 - t) * startX + 2 * (1 - t) * t * ctrl.x + t * t * endX
+            val y = (1 - t) * (1 - t) * horizonY + 2 * (1 - t) * t * ctrl.y + t * t * horizonY
             canvas.drawCircle(x, y, 3f, tickPaint)
         }
     }
 
     private fun drawMoon(canvas: Canvas, w: Float, h: Float, data: MoonPhaseCalculator.MoonData) {
-        val pos    = getMoonPosition(w, h)
+        val pos = getMoonPosition(w, h)
         val radius = w * 0.085f
-        val illum  = data.illumination
+        val illum = data.illumination
 
-        // Glow
         val glowRadius = radius * (1.6f + illum * 0.8f)
-        val glowAlpha  = (30 + illum * 60).toInt()
+        val glowAlpha = (30 + illum * 60).toInt()
         glowPaint.shader = RadialGradient(
             pos.x, pos.y, glowRadius,
             intArrayOf(
@@ -228,24 +232,19 @@ class MoonArcView @JvmOverloads constructor(
         )
         canvas.drawCircle(pos.x, pos.y, glowRadius, glowPaint)
 
-        // Moon disc — use a SaveLayer for PorterDuff masking
         val bounds = RectF(pos.x - radius * 2, pos.y - radius * 2, pos.x + radius * 2, pos.y + radius * 2)
         canvas.saveLayer(bounds, null)
 
-        // Base disc
         moonPaint.color = Color.argb(255, 245, 235, 200)
         canvas.drawCircle(pos.x, pos.y, radius, moonPaint)
 
-        // Shadow disc to carve out the phase
-        // For waxing: shadow on left. For waning: shadow on right.
         val shadowOffset = radius * (1f - illum * 2f).coerceIn(-1f, 1f)
         val shadowX = if (data.isWaxing) pos.x - shadowOffset else pos.x + shadowOffset
-        moonShadowPaint.color = Color.argb(255, 10, 18, 35) // match sky
+        moonShadowPaint.color = Color.argb(255, 10, 18, 35)
         canvas.drawCircle(shadowX, pos.y, radius * 1.01f, moonShadowPaint)
 
         canvas.restore()
 
-        // Subtle craters (only visible when moon is bright enough)
         if (illum > 0.3f) {
             val craterPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
                 color = Color.argb((illum * 25).toInt(), 160, 145, 110)
@@ -253,61 +252,67 @@ class MoonArcView @JvmOverloads constructor(
             }
             val craters = listOf(
                 floatArrayOf(-0.3f, -0.2f, 0.12f),
-                floatArrayOf(0.2f,  0.3f,  0.09f),
+                floatArrayOf(0.2f, 0.3f, 0.09f),
                 floatArrayOf(-0.1f, 0.35f, 0.07f),
                 floatArrayOf(0.35f, -0.1f, 0.08f),
             )
             for (c in craters) {
-                canvas.drawCircle(pos.x + c[0]*radius, pos.y + c[1]*radius, c[2]*radius, craterPaint)
+                canvas.drawCircle(pos.x + c[0] * radius, pos.y + c[1] * radius, c[2] * radius, craterPaint)
             }
         }
     }
 
     private fun drawLabels(canvas: Canvas, w: Float, h: Float, data: MoonPhaseCalculator.MoonData) {
         val horizonY = h * 0.82f
-        val centerX  = w / 2f
+        val centerX = w / 2f
 
-        // Phase name pill
         val phaseName = data.phase.nameEn
         labelPaint.textSize = w * 0.048f
         val pillW = labelPaint.measureText(phaseName) + w * 0.08f
         val pillH = w * 0.072f
-        val pillTop = horizonY + h * 0.04f
-        val pillRect = RectF(centerX - pillW/2, pillTop, centerX + pillW/2, pillTop + pillH)
-        canvas.drawRoundRect(pillRect, pillH/2, pillH/2, pillPaint)
+        val pillTop = horizonY + h * 0.03f
+        val pillRect = RectF(centerX - pillW / 2, pillTop, centerX + pillW / 2, pillTop + pillH)
+
+        canvas.drawRoundRect(pillRect, pillH / 2, pillH / 2, pillPaint)
         canvas.drawText(phaseName, centerX, pillTop + pillH * 0.66f, labelPaint)
 
-        // Arabic name
-        subLabelPaint.textSize = w * 0.038f
-        subLabelPaint.typeface = Typeface.DEFAULT
-        canvas.drawText(data.phase.nameAr, centerX, pillTop + pillH + w * 0.045f, subLabelPaint)
+        arabicPhasePaint.textSize = w * 0.042f
+        canvas.drawText(
+            data.phase.nameAr,
+            centerX,
+            pillTop + pillH + w * 0.05f,
+            arabicPhasePaint
+        )
 
-        // Hijri day badge (top-right)
         subLabelPaint.textSize = w * 0.032f
         canvas.drawText("Day ${data.hijriDay} of 30", centerX, h * 0.06f, subLabelPaint)
     }
 
     private fun drawIlluminationBar(canvas: Canvas, w: Float, h: Float, data: MoonPhaseCalculator.MoonData) {
-        val barW   = w * 0.55f
-        val barH   = h * 0.018f
-        val left   = (w - barW) / 2f
-        val top    = h * 0.90f
+        val barW = w * 0.55f
+        val barH = h * 0.018f
+        val left = (w - barW) / 2f
+        val top = h * 0.90f
         val radius = barH / 2f
 
-        // Background track
-        canvas.drawRoundRect(RectF(left, top, left + barW, top + barH), radius, radius, illuminationBarBgPaint)
+        canvas.drawRoundRect(
+            RectF(left, top, left + barW, top + barH),
+            radius, radius, illuminationBarBgPaint
+        )
 
-        // Filled portion
         val fillW = barW * animatedProgress
         if (fillW > radius * 2) {
-            canvas.drawRoundRect(RectF(left, top, left + fillW, top + barH), radius, radius, illuminationBarFgPaint)
+            canvas.drawRoundRect(
+                RectF(left, top, left + fillW, top + barH),
+                radius, radius, illuminationBarFgPaint
+            )
         }
 
-        // Label
         subLabelPaint.textSize = h * 0.022f
         canvas.drawText(
             "${(data.illumination * 100).toInt()}% illuminated",
-            w / 2f, top + barH + h * 0.032f,
+            w / 2f,
+            top + barH + h * 0.032f,
             subLabelPaint
         )
     }
