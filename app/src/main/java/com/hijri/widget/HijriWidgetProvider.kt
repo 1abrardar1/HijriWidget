@@ -41,7 +41,6 @@ class HijriWidgetProvider : AppWidgetProvider() {
         ) {
             val views = RemoteViews(context.packageName, R.layout.widget_layout)
             views.setViewVisibility(R.id.loading_indicator, View.VISIBLE)
-            views.setViewVisibility(R.id.content_group, View.INVISIBLE)
             views.setViewVisibility(R.id.tv_source_badge, View.GONE)
             appWidgetManager.updateAppWidget(appWidgetId, views)
         }
@@ -112,7 +111,6 @@ class HijriWidgetProvider : AppWidgetProvider() {
             val views = RemoteViews(context.packageName, R.layout.widget_layout)
 
             views.setViewVisibility(R.id.loading_indicator, View.GONE)
-            views.setViewVisibility(R.id.content_group, View.VISIBLE)
 
             // Date fields
             views.setTextViewText(R.id.tv_hijri_day,      result.hijriDate.day.toString())
