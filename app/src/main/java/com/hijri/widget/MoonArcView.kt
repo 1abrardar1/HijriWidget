@@ -31,10 +31,10 @@ class MoonArcView @JvmOverloads constructor(
     }
 
     private val arcPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-    color = Color.argb(70, 190, 210, 255)
-    style = Paint.Style.STROKE
-    strokeWidth = 2f
-    pathEffect = DashPathEffect(floatArrayOf(12f, 8f), 0f)
+        color = Color.argb(70, 190, 210, 255)
+        style = Paint.Style.STROKE
+        strokeWidth = 2f
+        pathEffect = DashPathEffect(floatArrayOf(12f, 8f), 0f)
     }
 
     private val moonPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -57,9 +57,9 @@ class MoonArcView @JvmOverloads constructor(
     }
 
     private val subLabelPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-    color = Color.argb(205, 220, 226, 245)
-    textAlign = Paint.Align.CENTER
-    typeface = Typeface.create("sans-serif", Typeface.NORMAL)
+        color = Color.argb(205, 220, 226, 245)
+        textAlign = Paint.Align.CENTER
+        typeface = Typeface.create("sans-serif", Typeface.NORMAL)
     }
 
     private val horizonPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -114,20 +114,20 @@ class MoonArcView @JvmOverloads constructor(
     }
 
     private fun drawSky(canvas: Canvas, w: Float, h: Float) {
-    val shader = LinearGradient(
-        0f, 0f, 0f, h,
-        intArrayOf(
-            Color.parseColor("#08111F"),
-            Color.parseColor("#10203A"),
-            Color.parseColor("#1A3152"),
-            Color.parseColor("#29456B")
-        ),
-        floatArrayOf(0f, 0.35f, 0.72f, 1f),
-        Shader.TileMode.CLAMP
-    )
-    skyPaint.shader = shader
-    canvas.drawRect(0f, 0f, w, h, skyPaint)
-}
+        val shader = LinearGradient(
+            0f, 0f, 0f, h,
+            intArrayOf(
+                Color.parseColor("#08111F"),
+                Color.parseColor("#10203A"),
+                Color.parseColor("#1A3152"),
+                Color.parseColor("#29456B")
+            ),
+            floatArrayOf(0f, 0.35f, 0.72f, 1f),
+            Shader.TileMode.CLAMP
+        )
+        skyPaint.shader = shader
+        canvas.drawRect(0f, 0f, w, h, skyPaint)
+    }
 
     private fun drawStars(canvas: Canvas, w: Float, h: Float) {
         val moonPos = getMoonPosition(w, h)
@@ -252,95 +252,96 @@ class MoonArcView @JvmOverloads constructor(
     }
 
     private fun drawLabels(canvas: Canvas, w: Float, h: Float, data: MoonPhaseCalculator.MoonData) {
-    val horizonY = h * 0.82f
-    val centerX = w / 2f
+        val horizonY = h * 0.82f
+        val centerX = w / 2f
 
-    val phaseName = data.phase.nameEn.uppercase()
-    labelPaint.textSize = w * 0.043f
-    labelPaint.typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
-    labelPaint.color = Color.argb(255, 245, 240, 255)
+        val phaseName = data.phase.nameEn.uppercase()
+        labelPaint.textSize = w * 0.043f
+        labelPaint.typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+        labelPaint.color = Color.argb(255, 245, 240, 255)
 
-    val pillPaddingX = w * 0.055f
-    val pillH = w * 0.08f
-    val pillW = labelPaint.measureText(phaseName) + pillPaddingX * 2f
-    val pillTop = horizonY + h * 0.03f
-    val pillRect = RectF(
-        centerX - pillW / 2f,
-        pillTop,
-        centerX + pillW / 2f,
-        pillTop + pillH
-    )
+        val pillPaddingX = w * 0.055f
+        val pillH = w * 0.08f
+        val pillW = labelPaint.measureText(phaseName) + pillPaddingX * 2f
+        val pillTop = horizonY + h * 0.03f
+        val pillRect = RectF(
+            centerX - pillW / 2f,
+            pillTop,
+            centerX + pillW / 2f,
+            pillTop + pillH
+        )
 
-    val pillFillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.argb(90, 90, 92, 130)
-        style = Paint.Style.FILL
+        val pillFillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.argb(90, 90, 92, 130)
+            style = Paint.Style.FILL
+        }
+
+        val pillStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.argb(110, 210, 220, 255)
+            style = Paint.Style.STROKE
+            strokeWidth = 1.5f
+        }
+
+        canvas.drawRoundRect(pillRect, pillH / 2f, pillH / 2f, pillFillPaint)
+        canvas.drawRoundRect(pillRect, pillH / 2f, pillH / 2f, pillStrokePaint)
+        canvas.drawText(phaseName, centerX, pillTop + pillH * 0.66f, labelPaint)
+
+        subLabelPaint.textSize = w * 0.032f
+        subLabelPaint.color = Color.argb(210, 220, 226, 245)
+        canvas.drawText(
+            "Day ${data.hijriDay} of 30",
+            centerX,
+            h * 0.06f,
+            subLabelPaint
+        )
     }
-
-    val pillStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.argb(110, 210, 220, 255)
-        style = Paint.Style.STROKE
-        strokeWidth = 1.5f
-    }
-
-    canvas.drawRoundRect(pillRect, pillH / 2f, pillH / 2f, pillFillPaint)
-    canvas.drawRoundRect(pillRect, pillH / 2f, pillH / 2f, pillStrokePaint)
-    canvas.drawText(phaseName, centerX, pillTop + pillH * 0.66f, labelPaint)
-
-    subLabelPaint.textSize = w * 0.032f
-    subLabelPaint.color = Color.argb(210, 220, 226, 245)
-    canvas.drawText(
-        "Day ${data.hijriDay} of 30",
-        centerX,
-        h * 0.06f,
-        subLabelPaint
-    )
-}
 
     private fun drawIlluminationBar(canvas: Canvas, w: Float, h: Float, data: MoonPhaseCalculator.MoonData) {
-    val barW = w * 0.58f
-    val barH = h * 0.020f
-    val left = (w - barW) / 2f
-    val top = h * 0.895f
-    val radius = barH / 2f
+        val barW = w * 0.58f
+        val barH = h * 0.020f
+        val left = (w - barW) / 2f
+        val top = h * 0.895f
+        val radius = barH / 2f
 
-    val trackRect = RectF(left, top, left + barW, top + barH)
+        val trackRect = RectF(left, top, left + barW, top + barH)
 
-    val trackPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.argb(80, 120, 130, 165)
-        style = Paint.Style.FILL
-    }
+        val trackPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.argb(80, 120, 130, 165)
+            style = Paint.Style.FILL
+        }
 
-    val trackStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.argb(100, 210, 220, 255)
-        style = Paint.Style.STROKE
-        strokeWidth = 1.2f
-    }
+        val trackStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.argb(100, 210, 220, 255)
+            style = Paint.Style.STROKE
+            strokeWidth = 1.2f
+        }
 
-    val fillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        shader = LinearGradient(
-            left, top, left + barW, top,
-            Color.argb(255, 186, 210, 255),
-            Color.argb(255, 160, 225, 255),
-            Shader.TileMode.CLAMP
+        val fillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            shader = LinearGradient(
+                left, top, left + barW, top,
+                Color.argb(255, 186, 210, 255),
+                Color.argb(255, 160, 225, 255),
+                Shader.TileMode.CLAMP
+            )
+            style = Paint.Style.FILL
+        }
+
+        canvas.drawRoundRect(trackRect, radius, radius, trackPaint)
+        canvas.drawRoundRect(trackRect, radius, radius, trackStrokePaint)
+
+        val fillW = barW * animatedProgress
+        if (fillW > radius * 2f) {
+            val fillRect = RectF(left, top, left + fillW, top + barH)
+            canvas.drawRoundRect(fillRect, radius, radius, fillPaint)
+        }
+
+        subLabelPaint.textSize = h * 0.022f
+        subLabelPaint.color = Color.argb(220, 232, 236, 248)
+        canvas.drawText(
+            "${(data.illumination * 100).toInt()}% illuminated",
+            w / 2f,
+            top + barH + h * 0.034f,
+            subLabelPaint
         )
-        style = Paint.Style.FILL
     }
-
-    canvas.drawRoundRect(trackRect, radius, radius, trackPaint)
-    canvas.drawRoundRect(trackRect, radius, radius, trackStrokePaint)
-
-    val fillW = barW * animatedProgress
-    if (fillW > radius * 2f) {
-        val fillRect = RectF(left, top, left + fillW, top + barH)
-        canvas.drawRoundRect(fillRect, radius, radius, fillPaint)
-    }
-
-    subLabelPaint.textSize = h * 0.022f
-    subLabelPaint.color = Color.argb(220, 232, 236, 248)
-    canvas.drawText(
-        "${(data.illumination * 100).toInt()}% illuminated",
-        w / 2f,
-        top + barH + h * 0.034f,
-        subLabelPaint
-    )
 }
