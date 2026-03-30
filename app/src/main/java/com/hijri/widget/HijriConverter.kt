@@ -51,7 +51,7 @@ object HijriConverter {
         val l3 = l2 - ((30 - j) / 15).toInt() * ((17719 * j) / 50).toInt() -
                 (j / 16).toInt() * ((15238 * j) / 43).toInt() + 29
         val month = ((24 * l3) / 709).toInt()
-        val day = l3 - ((709 * month) / 24).toInt()
+        val day = (l3 - ((709 * month) / 24)).toInt()
         val year = 30 * n + j - 30
 
         return HijriDate(day, month, year)
