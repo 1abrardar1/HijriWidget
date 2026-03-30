@@ -263,30 +263,66 @@ class MoonArcView @JvmOverloads constructor(
     }
 
     private fun drawLabels(canvas: Canvas, w: Float, h: Float, data: MoonPhaseCalculator.MoonData) {
-        val horizonY = h * 0.82f
-        val centerX = w / 2f
+    val horizonY = h * 0.82f
+    val centerX = w / 2f
 
-        val phaseName = data.phase.nameEn
-        labelPaint.textSize = w * 0.048f
-        val pillW = labelPaint.measureText(phaseName) + w * 0.08f
-        val pillH = w * 0.072f
-        val pillTop = horizonY + h * 0.03f
-        val pillRect = RectF(centerX - pillW / 2, pillTop, centerX + pillW / 2, pillTop + pillH)
+    // English phase pill
+    val phaseName = data.phase.nameEn.uppercase()
+    labelPaint.textSize = w * 0.044f
+    labelPaint.typeface = Typeface.create(Typeface.DEFAULT_BOLD, Typeface.BOLD)
 
-        canvas.drawRoundRect(pillRect, pillH / 2, pillH / 2, pillPaint)
-        canvas.drawText(phaseName, centerX, pillTop + pillH * 0.66f, labelPaint)
+    val pillPaddingX = w * 0.055f
+    val pillH = w * 0.08f
+    val pillW = labelPaint.measureText(phaseName) + pillPaddingX * 2
+    val pillTop = horizonY + h * 0.028f
+    val pillRect = RectF(
+        centerX - pillW / 2,
+        pillTop,
+        centerX + pillW / 2,
+        pillTop + pillH
+    )
 
-        arabicPhasePaint.textSize = w * 0.042f
-        canvas.drawText(
-            data.phase.nameAr,
-            centerX,
-            pillTop + pillH + w * 0.05f,
-            arabicPhasePaint
-        )
-
-        subLabelPaint.textSize = w * 0.032f
-        canvas.drawText("Day ${data.hijriDay} of 30", centerX, h * 0.06f, subLabelPaint)
+    // Slightly richer pill
+    val premiumPillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.argb(65, 255, 255, 255)
+        style = Paint.Style.FILL
     }
+
+    val premiumPillStroke = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.argb(55, 255, 255, 255)
+        style = Paint.Style.STROKE
+        strokeWidth = 1.5f
+    }
+
+    canvas.drawRoundRect(pillRect, pillH / 2, pillH / 2, premiumPillPaint)
+    canvas.drawRoundRect(pillRect, pillH / 2, pillH / 2, premiumPillStroke)
+
+    canvas.drawText(
+        phaseName,
+        centerX,
+        pillTop + pillH * 0.66f,
+        labelPaint
+    )
+
+    // Arabic phase name
+    arabicPhasePaint.textSize = w * 0.043f
+    canvas.drawText(
+        data.phase.nameAr,
+        centerX,
+        pillTop + pillH + w * 0.055f,
+        arabicPhasePaint
+    )
+
+    // Hijri day label
+    subLabelPaint.textSize = w * 0.032f
+    subLabelPaint.color = Color.argb(190, 255, 255, 255)
+    canvas.drawText(
+        "Day ${data.hijriDay} of 30",
+        centerX,
+        h * 0.06f,
+        subLabelPaint
+    )
+}
 
     private fun drawIlluminationBar(canvas: Canvas, w: Float, h: Float, data: MoonPhaseCalculator.MoonData) {
         val barW = w * 0.55f
