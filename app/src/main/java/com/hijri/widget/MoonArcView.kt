@@ -113,20 +113,20 @@ class MoonArcView @JvmOverloads constructor(
     }
 
     private fun drawSky(canvas: Canvas, w: Float, h: Float) {
-        val shader = LinearGradient(
-            0f, 0f, 0f, h,
-            intArrayOf(
-                Color.parseColor("#050d1a"),
-                Color.parseColor("#0a1628"),
-                Color.parseColor("#111f3a"),
-                Color.parseColor("#1a2a4a")
-            ),
-            floatArrayOf(0f, 0.4f, 0.75f, 1f),
-            Shader.TileMode.CLAMP
-        )
-        skyPaint.shader = shader
-        canvas.drawRect(0f, 0f, w, h, skyPaint)
-    }
+    val shader = LinearGradient(
+        0f, 0f, 0f, h,
+        intArrayOf(
+            Color.parseColor("#08111F"),
+            Color.parseColor("#10203A"),
+            Color.parseColor("#1A3152"),
+            Color.parseColor("#29456B")
+        ),
+        floatArrayOf(0f, 0.35f, 0.72f, 1f),
+        Shader.TileMode.CLAMP
+    )
+    skyPaint.shader = shader
+    canvas.drawRect(0f, 0f, w, h, skyPaint)
+}
 
     private fun drawStars(canvas: Canvas, w: Float, h: Float) {
         val moonPos = getMoonPosition(w, h)
