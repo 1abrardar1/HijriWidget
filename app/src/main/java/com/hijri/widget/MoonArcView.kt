@@ -251,63 +251,49 @@ class MoonArcView @JvmOverloads constructor(
     }
 
     private fun drawLabels(canvas: Canvas, w: Float, h: Float, data: MoonPhaseCalculator.MoonData) {
-        val horizonY = h * 0.82f
-        val centerX = w / 2f
+    val horizonY = h * 0.82f
+    val centerX = w / 2f
 
-        val phaseName = data.phase.nameEn.uppercase()
-        labelPaint.textSize = w * 0.044f
-        labelPaint.typeface = Typeface.create(Typeface.DEFAULT_BOLD, Typeface.BOLD)
+    val phaseName = data.phase.nameEn.uppercase()
+    labelPaint.textSize = w * 0.043f
+    labelPaint.typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+    labelPaint.color = Color.argb(255, 245, 240, 255)
 
-        val pillPaddingX = w * 0.055f
-        val pillH = w * 0.08f
-        val pillW = labelPaint.measureText(phaseName) + pillPaddingX * 2f
-        val pillTop = horizonY + h * 0.028f
-        val pillRect = RectF(
-            centerX - pillW / 2f,
-            pillTop,
-            centerX + pillW / 2f,
-            pillTop + pillH
-        )
+    val pillPaddingX = w * 0.055f
+    val pillH = w * 0.08f
+    val pillW = labelPaint.measureText(phaseName) + pillPaddingX * 2f
+    val pillTop = horizonY + h * 0.03f
+    val pillRect = RectF(
+        centerX - pillW / 2f,
+        pillTop,
+        centerX + pillW / 2f,
+        pillTop + pillH
+    )
 
-        val pillFillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = Color.argb(65, 255, 255, 255)
-            style = Paint.Style.FILL
-        }
-
-        val pillStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = Color.argb(55, 255, 255, 255)
-            style = Paint.Style.STROKE
-            strokeWidth = 1.5f
-        }
-
-        canvas.drawRoundRect(pillRect, pillH / 2f, pillH / 2f, pillFillPaint)
-        canvas.drawRoundRect(pillRect, pillH / 2f, pillH / 2f, pillStrokePaint)
-        canvas.drawText(phaseName, centerX, pillTop + pillH * 0.66f, labelPaint)
-
-        val arabicPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = Color.argb(245, 255, 245, 220)
-            textAlign = Paint.Align.CENTER
-            textSize = w * 0.043f
-            typeface = Typeface.create(Typeface.DEFAULT_BOLD, Typeface.BOLD)
-            setShadowLayer(19f, 0f, 0f, Color.argb(100, 255, 215, 120))
-        }
-
-        canvas.drawText(
-            data.phase.nameAr,
-            centerX,
-            pillTop + pillH + w * 0.048f,
-            arabicPaint
-        )
-
-        subLabelPaint.textSize = w * 0.032f
-        subLabelPaint.color = Color.argb(190, 255, 255, 255)
-        canvas.drawText(
-            "Day ${data.hijriDay} of 30",
-            centerX,
-            h * 0.06f,
-            subLabelPaint
-        )
+    val pillFillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.argb(90, 90, 92, 130)
+        style = Paint.Style.FILL
     }
+
+    val pillStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.argb(110, 210, 220, 255)
+        style = Paint.Style.STROKE
+        strokeWidth = 1.5f
+    }
+
+    canvas.drawRoundRect(pillRect, pillH / 2f, pillH / 2f, pillFillPaint)
+    canvas.drawRoundRect(pillRect, pillH / 2f, pillH / 2f, pillStrokePaint)
+    canvas.drawText(phaseName, centerX, pillTop + pillH * 0.66f, labelPaint)
+
+    subLabelPaint.textSize = w * 0.032f
+    subLabelPaint.color = Color.argb(210, 220, 226, 245)
+    canvas.drawText(
+        "Day ${data.hijriDay} of 30",
+        centerX,
+        h * 0.06f,
+        subLabelPaint
+    )
+}
 
     private fun drawIlluminationBar(canvas: Canvas, w: Float, h: Float, data: MoonPhaseCalculator.MoonData) {
         val barW = w * 0.58f
