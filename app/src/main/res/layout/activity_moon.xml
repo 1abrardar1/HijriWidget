@@ -5,38 +5,46 @@
     android:layout_height="match_parent"
     android:background="#050d1a">
 
-    <!-- The animated moon arc canvas fills the screen -->
+    <!-- Animated moon arc canvas -->
     <com.hijri.widget.MoonArcView
         android:id="@+id/moon_arc_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- Hijri date text at top center -->
-    <TextView
-        android:id="@+id/tv_hijri_full"
+    <!-- Top info block -->
+    <LinearLayout
+        android:id="@+id/top_info_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|center_horizontal"
         android:layout_marginTop="48dp"
-        android:textColor="#FFFFFF"
-        android:textSize="22sp"
-        android:fontFamily="sans-serif-light"
-        android:gravity="center"
-        android:lineSpacingMultiplier="1.3"
-        android:text="1 Muharram 1446 AH" />
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
 
-    <!-- Gregorian date below -->
-    <TextView
-        android:id="@+id/tv_greg_full"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|center_horizontal"
-        android:layout_marginTop="104dp"
-        android:textColor="#88FFFFFF"
-        android:textSize="13sp"
-        android:text="Mon, 1 Jan 2025" />
+        <!-- Hijri date -->
+        <TextView
+            android:id="@+id/tv_hijri_full"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.3"
+            android:text="1 Muharram 1446 AH" />
 
-    <!-- Close button top-right -->
+        <!-- Gregorian date -->
+        <TextView
+            android:id="@+id/tv_greg_full"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="#88FFFFFF"
+            android:textSize="13sp"
+            android:text="Mon, 1 Jan 2025" />
+    </LinearLayout>
+
+    <!-- Close button -->
     <TextView
         android:id="@+id/btn_close"
         android:layout_width="44dp"
