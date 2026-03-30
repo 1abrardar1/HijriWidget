@@ -15,14 +15,15 @@
         android:text="Verified"
         android:textStyle="bold"
         android:textSize="10sp"
-        android:textColor="#FFF8D6"
-        android:background="#335C4B"
+        android:textColor="@color/md_theme_onSecondaryContainer"
+        android:background="#664A4458"
         android:paddingLeft="8dp"
         android:paddingTop="3dp"
         android:paddingRight="8dp"
         android:paddingBottom="3dp"
         android:layout_marginBottom="8dp"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:fontFamily="sans-serif-medium" />
 
     <TextView
         android:id="@+id/tv_hijri_day"
@@ -31,7 +32,8 @@
         android:text="1"
         android:textStyle="bold"
         android:textSize="40sp"
-        android:textColor="#FFFFFF" />
+        android:textColor="@color/md_theme_onSurface"
+        android:fontFamily="sans-serif-medium" />
 
     <TextView
         android:id="@+id/tv_hijri_month_ar"
@@ -39,8 +41,9 @@
         android:layout_height="wrap_content"
         android:text="مُحَرَّم"
         android:textSize="13sp"
-        android:textColor="#EADFB8"
-        android:layout_marginTop="2dp" />
+        android:textColor="@color/md_theme_tertiary"
+        android:layout_marginTop="2dp"
+        android:fontFamily="sans-serif" />
 
     <TextView
         android:id="@+id/tv_hijri_month"
@@ -49,8 +52,9 @@
         android:text="Muharram"
         android:textStyle="bold"
         android:textSize="16sp"
-        android:textColor="#FFFFFF"
-        android:layout_marginTop="2dp" />
+        android:textColor="@color/md_theme_onSurface"
+        android:layout_marginTop="2dp"
+        android:fontFamily="sans-serif-medium" />
 
     <TextView
         android:id="@+id/tv_hijri_year"
@@ -58,15 +62,16 @@
         android:layout_height="wrap_content"
         android:text="1446 AH"
         android:textSize="12sp"
-        android:textColor="#D9E6F2"
-        android:layout_marginTop="2dp" />
+        android:textColor="@color/md_theme_onSurfaceVariant"
+        android:layout_marginTop="2dp"
+        android:fontFamily="sans-serif" />
 
     <TextView
         android:id="@+id/tv_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:text=""
-        android:background="#33FFFFFF"
+        android:background="#33CAC4D0"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp" />
 
@@ -76,17 +81,19 @@
         android:layout_height="wrap_content"
         android:text="Mon, 1 Jan 2025"
         android:textSize="11sp"
-        android:textColor="#D9E6F2" />
+        android:textColor="@color/md_theme_onSurfaceVariant"
+        android:fontFamily="sans-serif" />
 
     <TextView
         android:id="@+id/tv_moon_phase_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="WAXING CRESCENT"
+        android:text="WAXING GIBBOUS"
         android:textStyle="bold"
         android:textSize="11sp"
-        android:textColor="#FFF4C2"
-        android:layout_marginTop="6dp" />
+        android:textColor="@color/md_theme_primary"
+        android:layout_marginTop="6dp"
+        android:fontFamily="sans-serif-medium" />
 
     <TextView
         android:id="@+id/loading_indicator"
@@ -94,8 +101,9 @@
         android:layout_height="wrap_content"
         android:text="Updating..."
         android:textSize="10sp"
-        android:textColor="#BFD3E6"
+        android:textColor="@color/md_theme_onSurfaceVariant"
         android:layout_marginTop="8dp"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:fontFamily="sans-serif" />
 
 </LinearLayout>
