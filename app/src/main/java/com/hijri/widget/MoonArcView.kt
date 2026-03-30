@@ -31,10 +31,10 @@ class MoonArcView @JvmOverloads constructor(
     }
 
     private val arcPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.argb(60, 255, 255, 255)
-        style = Paint.Style.STROKE
-        strokeWidth = 2f
-        pathEffect = DashPathEffect(floatArrayOf(12f, 8f), 0f)
+    color = Color.argb(70, 190, 210, 255)
+    style = Paint.Style.STROKE
+    strokeWidth = 2f
+    pathEffect = DashPathEffect(floatArrayOf(12f, 8f), 0f)
     }
 
     private val moonPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -57,8 +57,9 @@ class MoonArcView @JvmOverloads constructor(
     }
 
     private val subLabelPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.argb(180, 255, 255, 255)
-        textAlign = Paint.Align.CENTER
+    color = Color.argb(205, 220, 226, 245)
+    textAlign = Paint.Align.CENTER
+    typeface = Typeface.create("sans-serif", Typeface.NORMAL)
     }
 
     private val horizonPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -296,51 +297,50 @@ class MoonArcView @JvmOverloads constructor(
 }
 
     private fun drawIlluminationBar(canvas: Canvas, w: Float, h: Float, data: MoonPhaseCalculator.MoonData) {
-        val barW = w * 0.58f
-        val barH = h * 0.020f
-        val left = (w - barW) / 2f
-        val top = h * 0.895f
-        val radius = barH / 2f
+    val barW = w * 0.58f
+    val barH = h * 0.020f
+    val left = (w - barW) / 2f
+    val top = h * 0.895f
+    val radius = barH / 2f
 
-        val trackRect = RectF(left, top, left + barW, top + barH)
+    val trackRect = RectF(left, top, left + barW, top + barH)
 
-        val trackPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = Color.argb(55, 255, 255, 255)
-            style = Paint.Style.FILL
-        }
-
-        val trackStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = Color.argb(40, 255, 255, 255)
-            style = Paint.Style.STROKE
-            strokeWidth = 1.2f
-        }
-
-        val fillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            shader = LinearGradient(
-                left, top, left + barW, top,
-                Color.argb(235, 255, 210, 90),
-                Color.argb(255, 255, 230, 140),
-                Shader.TileMode.CLAMP
-            )
-            style = Paint.Style.FILL
-        }
-
-        canvas.drawRoundRect(trackRect, radius, radius, trackPaint)
-        canvas.drawRoundRect(trackRect, radius, radius, trackStrokePaint)
-
-        val fillW = barW * animatedProgress
-        if (fillW > radius * 2f) {
-            val fillRect = RectF(left, top, left + fillW, top + barH)
-            canvas.drawRoundRect(fillRect, radius, radius, fillPaint)
-        }
-
-        subLabelPaint.textSize = h * 0.022f
-        subLabelPaint.color = Color.argb(205, 230, 238, 247)
-        canvas.drawText(
-            "${(data.illumination * 100).toInt()}% illuminated",
-            w / 2f,
-            top + barH + h * 0.034f,
-            subLabelPaint
-        )
+    val trackPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.argb(80, 120, 130, 165)
+        style = Paint.Style.FILL
     }
+
+    val trackStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.argb(100, 210, 220, 255)
+        style = Paint.Style.STROKE
+        strokeWidth = 1.2f
+    }
+
+    val fillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        shader = LinearGradient(
+            left, top, left + barW, top,
+            Color.argb(255, 186, 210, 255),
+            Color.argb(255, 160, 225, 255),
+            Shader.TileMode.CLAMP
+        )
+        style = Paint.Style.FILL
+    }
+
+    canvas.drawRoundRect(trackRect, radius, radius, trackPaint)
+    canvas.drawRoundRect(trackRect, radius, radius, trackStrokePaint)
+
+    val fillW = barW * animatedProgress
+    if (fillW > radius * 2f) {
+        val fillRect = RectF(left, top, left + fillW, top + barH)
+        canvas.drawRoundRect(fillRect, radius, radius, fillPaint)
+    }
+
+    subLabelPaint.textSize = h * 0.022f
+    subLabelPaint.color = Color.argb(220, 232, 236, 248)
+    canvas.drawText(
+        "${(data.illumination * 100).toInt()}% illuminated",
+        w / 2f,
+        top + barH + h * 0.034f,
+        subLabelPaint
+    )
 }
