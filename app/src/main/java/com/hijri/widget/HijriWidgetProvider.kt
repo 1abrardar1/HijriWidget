@@ -124,13 +124,7 @@ class HijriWidgetProvider : AppWidgetProvider() {
             views.setTextViewText(R.id.tv_moon_phase_name, moonData.phase.nameEn.uppercase())
 
             // Source badge
-            val badge = when (result.source) {
-                DateSource.API            -> "✓ Aladhan verified"
-                DateSource.PAKISTAN_TABLE -> "🌙 Pakistan Ruet-e-Hilal"
-                DateSource.ALGORITHM      -> "⚠ Estimate only"
-            }
-            views.setTextViewText(R.id.tv_source_badge, badge)
-            views.setViewVisibility(R.id.tv_source_badge, View.VISIBLE)
+            views.setViewVisibility(R.id.tv_source_badge, View.GONE)
 
             // TAP → open MoonActivity
             val moonIntent = Intent(context, MoonActivity::class.java).apply {
