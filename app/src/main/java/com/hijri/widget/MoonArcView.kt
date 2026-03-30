@@ -295,7 +295,7 @@ class MoonArcView @JvmOverloads constructor(
         canvas.drawText(
             data.phase.nameAr,
             centerX,
-            pillTop + pillH + w * 0.055f,
+            pillTop + pillH + w * 0.048f,
             arabicPaint
         )
 
