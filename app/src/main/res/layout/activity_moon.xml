@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/moon_screen_bg"
+    android:background="@drawable/moon_screen_bg">
 
     <com.hijri.widget.MoonArcView
         android:id="@+id/moon_arc_view"
@@ -31,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1 Muharram 1446 AH"
-            android:textColor="@color/md_theme_onSurface"
+            android:textColor="#FFFFFF"
             android:textSize="24sp"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
@@ -47,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="Mon, 1 Jan 2025"
-            android:textColor="@color/md_theme_onSurfaceVariant"
+            android:textColor="#D0D7E6"
             android:textSize="13sp"
             android:fontFamily="sans-serif"
             android:gravity="center" />
@@ -61,7 +60,7 @@
         android:layout_margin="16dp"
         android:gravity="center"
         android:text="✕"
-        android:textColor="@color/md_theme_onSurface"
+        android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:fontFamily="sans-serif-medium"
         android:background="@drawable/close_button_bg" />
