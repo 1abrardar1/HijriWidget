@@ -14,8 +14,6 @@
         android:text="Waxing Crescent"
         android:textSize="9sp"
         android:textColor="#AAB4C5E4"
-        android:fontFamily="sans-serif-medium"
-        android:letterSpacing="0.08"
         android:layout_marginBottom="4dp" />
 
     <TextView
@@ -24,9 +22,7 @@
         android:layout_height="wrap_content"
         android:text="1"
         android:textSize="52sp"
-        android:textColor="#FFFFFFFF"
-        android:fontFamily="sans-serif-thin"
-        android:letterSpacing="-0.03" />
+        android:textColor="#FFFFFFFF" />
 
     <TextView
         android:id="@+id/tv_hijri_month_ar"
@@ -35,8 +31,7 @@
         android:text="Muharram"
         android:textSize="13sp"
         android:textColor="#88B4C5E4"
-        android:layout_marginTop="2dp"
-        android:fontFamily="sans-serif" />
+        android:layout_marginTop="2dp" />
 
     <TextView
         android:id="@+id/tv_hijri_month"
@@ -45,9 +40,7 @@
         android:text="Muharram"
         android:textSize="14sp"
         android:textColor="#DDFFFFFF"
-        android:layout_marginTop="2dp"
-        android:fontFamily="sans-serif-medium"
-        android:letterSpacing="0.05" />
+        android:layout_marginTop="2dp" />
 
     <TextView
         android:id="@+id/tv_hijri_year"
@@ -56,8 +49,7 @@
         android:text="1446 AH"
         android:textSize="12sp"
         android:textColor="#88FFFFFF"
-        android:layout_marginTop="2dp"
-        android:fontFamily="sans-serif" />
+        android:layout_marginTop="2dp" />
 
     <View
         android:layout_width="28dp"
@@ -72,8 +64,7 @@
         android:layout_height="wrap_content"
         android:text="Mon, 1 Jan 2025"
         android:textSize="11sp"
-        android:textColor="#66FFFFFF"
-        android:fontFamily="sans-serif" />
+        android:textColor="#66FFFFFF" />
 
     <TextView
         android:id="@+id/loading_indicator"
@@ -83,7 +74,6 @@
         android:textSize="10sp"
         android:textColor="#66FFFFFF"
         android:layout_marginTop="8dp"
-        android:visibility="gone"
-        android:fontFamily="sans-serif" />
+        android:visibility="gone" />
 
 </LinearLayout>
