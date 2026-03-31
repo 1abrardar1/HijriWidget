@@ -5,12 +5,12 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import android.os.Build
+import android.util.TypedValue
 import android.view.View
 import android.widget.RemoteViews
 import kotlinx.coroutines.*
 import java.util.Calendar
-import android.os.Build
-import android.util.TypedValue
 
 class HijriWidgetProvider : AppWidgetProvider() {
 
@@ -105,42 +105,44 @@ class HijriWidgetProvider : AppWidgetProvider() {
         }
 
         private fun applyResult(
-    context: Context,
-    appWidgetManager: AppWidgetManager,
-    appWidgetId: Int,
-    result: AladhanApiClient.Result
-) {
-    val views = RemoteViews(context.packageName, R.layout.widget_layout)
+            context: Context,
+            appWidgetManager: AppWidgetManager,
+            appWidgetId: Int,
+            result: AladhanApiClient.Result
+        ) {
+            val views = RemoteViews(context.packageName, R.layout.widget_layout)
 
-    // Date fields
-    views.setTextViewText(R.id.tv_hijri_day,     result.hijriDate.day.toString())
-    views.setTextViewText(R.id.tv_hijri_month,    result.hijriMonthNameEn)
-    views.setTextViewText(R.id.tv_hijri_month_ar, result.hijriMonthNameAr)
-    views.setTextViewText(R.id.tv_hijri_year,     "${result.hijriDate.year} AH")
-    views.setTextViewText(R.id.tv_gregorian_date, GregorianFormatter.format(Calendar.getInstance()))
+            // Date fields
+            views.setTextViewText(R.id.tv_hijri_day,      result.hijriDate.day.toString())
+            views.setTextViewText(R.id.tv_hijri_month,     result.hijriMonthNameEn)
+            views.setTextViewText(R.id.tv_hijri_month_ar,  result.hijriMonthNameAr)
+            views.setTextViewText(R.id.tv_hijri_year,      "${result.hijriDate.year} AH")
+            views.setTextViewText(R.id.tv_gregorian_date,  GregorianFormatter.format(Calendar.getInstance()))
 
-    // Moon phase pill (change 2)
-    val moonData = MoonPhaseCalculator.calculate(result.hijriDate.day)
-    views.setTextViewText(R.id.tv_moon_emoji,  moonData.phase.emoji)
-    views.setTextViewText(R.id.tv_source_badge, moonData.phase.nameEn)
+            // Moon phase pill
+            val moonData = MoonPhaseCalculator.calculate(result.hijriDate.day)
+            views.setTextViewText(R.id.tv_moon_emoji,   moonData.phase.emoji)
+            views.setTextViewText(R.id.tv_source_badge, moonData.phase.nameEn)
 
-    // Illumination bar (change 4) — set width as percentage of 72dp
-    if (Build.VERSION.SDK_INT >= 31) {
-        val density = context.resources.displayMetrics.density
-        val barWidthPx = (72 * density * moonData.illumination)
-            .toInt().coerceAtLeast((4 * density).toInt()).toFloat()
-        views.setViewLayoutWidth(R.id.v_illum_bar, barWidthPx, TypedValue.COMPLEX_UNIT_PX)
-    }
+            // Illumination bar width
+            if (Build.VERSION.SDK_INT >= 31) {
+                val density = context.resources.displayMetrics.density
+                val barWidthPx = (72 * density * moonData.illumination)
+                    .toInt().coerceAtLeast((4 * density).toInt()).toFloat()
+                views.setViewLayoutWidth(R.id.v_illum_bar, barWidthPx, TypedValue.COMPLEX_UNIT_PX)
+            }
 
-    // TAP → open MoonActivity
-    val moonIntent = Intent(context, MoonActivity::class.java).apply {
-        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-    }
-    val moonPending = PendingIntent.getActivity(
-        context, appWidgetId, moonIntent,
-        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-    )
-    views.setOnClickPendingIntent(R.id.widget_root, moonPending)
+            // TAP → open MoonActivity
+            val moonIntent = Intent(context, MoonActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
+            val moonPending = PendingIntent.getActivity(
+                context, appWidgetId, moonIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+            views.setOnClickPendingIntent(R.id.widget_root, moonPending)
 
-    appWidgetManager.updateAppWidget(appWidgetId, views)
-}
+            appWidgetManager.updateAppWidget(appWidgetId, views)
+        }                  // closes applyResult()
+    }                      // closes companion object
+}                          // closes HijriWidgetProvider class
