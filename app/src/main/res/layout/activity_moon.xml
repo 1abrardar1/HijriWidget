@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/moon_screen_bg">
+    android:background="#050d1a">
 
     <com.hijri.widget.MoonArcView
         android:id="@+id/moon_arc_view"
@@ -11,45 +11,50 @@
 
     <LinearLayout
         android:id="@+id/top_info_container"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|center_horizontal"
-        android:layout_marginTop="52dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginRight="28dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:paddingLeft="24dp"
-        android:paddingTop="18dp"
-        android:paddingRight="24dp"
-        android:paddingBottom="18dp"
+        android:paddingStart="28dp"
+        android:paddingEnd="28dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
         android:background="@drawable/moon_info_bg">
 
         <TextView
             android:id="@+id/tv_hijri_full"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1 Muharram 1446 AH"
+            android:text="12 Shawwal 1447 AH"
             android:textColor="#FFFFFF"
-            android:textSize="24sp"
-            android:fontFamily="sans-serif-medium"
+            android:textSize="22sp"
             android:gravity="center"
-            android:lineSpacingMultiplier="1.2"
-            android:shadowColor="#55000000"
-            android:shadowDx="0"
-            android:shadowDy="1"
-            android:shadowRadius="3" />
+            android:lineSpacingMultiplier="1.2" />
+
+        <TextView
+            android:id="@+id/tv_hijri_ar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="شَوَّال"
+            android:textColor="#CCFFFFFF"
+            android:textSize="18sp"
+            android:gravity="center" />
 
         <TextView
             android:id="@+id/tv_greg_full"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Mon, 1 Jan 2025"
-            android:textColor="#D0D7E6"
+            android:layout_marginTop="6dp"
+            android:text="Tue, 31 Mar 2026"
+            android:textColor="#99FFFFFF"
             android:textSize="13sp"
-            android:fontFamily="sans-serif"
             android:gravity="center" />
+
     </LinearLayout>
 
     <TextView
@@ -61,8 +66,7 @@
         android:gravity="center"
         android:text="✕"
         android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:fontFamily="sans-serif-medium"
+        android:textSize="18sp"
         android:background="@drawable/close_button_bg" />
 
 </FrameLayout>
