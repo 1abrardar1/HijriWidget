@@ -8,38 +8,42 @@
     android:padding="14dp"
     android:background="@drawable/widget_background">
 
+    <!-- Moon phase pill -->
     <LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
-    android:background="@drawable/phase_pill_bg"
-    android:paddingStart="8dp"
-    android:paddingEnd="8dp"
-    android:paddingTop="3dp"
-    android:paddingBottom="3dp"
-    android:layout_marginBottom="6dp">
-
-    <TextView
-        android:id="@+id/tv_moon_emoji"
+        android:id="@+id/pill_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="🌒"
-        android:textSize="11sp"
-        android:layout_marginEnd="4dp" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/phase_pill_bg"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:layout_marginBottom="6dp">
 
-    <TextView
-        android:id="@+id/tv_source_badge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Waxing Crescent"
-        android:textSize="9sp"
-        android:textColor="#AAB4C5E4"
-        android:fontFamily="sans-serif-medium"
-        android:letterSpacing="0.06" />
+        <TextView
+            android:id="@+id/tv_moon_emoji"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*"
+            android:textSize="11sp"
+            android:textColor="#AAB4C5E4"
+            android:layout_marginEnd="4dp" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/tv_source_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Waxing Crescent"
+            android:textSize="9sp"
+            android:textColor="#AAB4C5E4"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.06" />
 
+    </LinearLayout>
+
+    <!-- Hijri day number -->
     <TextView
         android:id="@+id/tv_hijri_day"
         android:layout_width="wrap_content"
@@ -48,18 +52,20 @@
         android:textSize="52sp"
         android:textColor="@color/md_theme_onSurface"
         android:fontFamily="sans-serif-thin"
-        android:letterSpacing="-0.03"/>
+        android:letterSpacing="-0.03" />
 
+    <!-- Arabic month name -->
     <TextView
         android:id="@+id/tv_hijri_month_ar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="مُحَرَّم"
+        android:text="&#x645;&#x64F;&#x62D;&#x64E;&#x631;&#x651;&#x645;"
         android:textSize="13sp"
         android:textColor="#88B4C5E4"
         android:layout_marginTop="2dp"
         android:fontFamily="sans-serif" />
 
+    <!-- English month name -->
     <TextView
         android:id="@+id/tv_hijri_month"
         android:layout_width="wrap_content"
@@ -69,8 +75,9 @@
         android:textColor="@color/md_theme_onSurface"
         android:layout_marginTop="2dp"
         android:fontFamily="sans-serif-medium"
-        android:letterSpacing="0.05"/>
+        android:letterSpacing="0.05" />
 
+    <!-- Hijri year -->
     <TextView
         android:id="@+id/tv_hijri_year"
         android:layout_width="wrap_content"
@@ -81,15 +88,16 @@
         android:layout_marginTop="2dp"
         android:fontFamily="sans-serif" />
 
-    <TextView
+    <!-- Divider hairline -->
+    <View
         android:id="@+id/tv_divider"
         android:layout_width="28dp"
         android:layout_height="1dp"
-        android:text=""
         android:background="#33CAC4D0"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp" />
 
+    <!-- Gregorian date -->
     <TextView
         android:id="@+id/tv_gregorian_date"
         android:layout_width="wrap_content"
@@ -99,20 +107,22 @@
         android:textColor="@color/md_theme_onSurfaceVariant"
         android:fontFamily="sans-serif" />
 
+    <!-- Illumination bar track -->
     <FrameLayout
-    android:layout_width="72dp"
-    android:layout_height="3dp"
-    android:layout_marginTop="7dp"
-    android:background="#1AFFFFFF">
-
-    <View
-        android:id="@+id/v_illum_bar"
-        android:layout_width="0dp"
+        android:layout_width="72dp"
         android:layout_height="3dp"
-        android:background="@drawable/illum_bar_fill" />
+        android:layout_marginTop="7dp"
+        android:background="#1AFFFFFF">
 
-</FrameLayout>
+        <View
+            android:id="@+id/v_illum_bar"
+            android:layout_width="0dp"
+            android:layout_height="3dp"
+            android:background="@drawable/illum_bar_fill" />
 
+    </FrameLayout>
+
+    <!-- Loading text — shown while fetching date -->
     <TextView
         android:id="@+id/loading_indicator"
         android:layout_width="wrap_content"
