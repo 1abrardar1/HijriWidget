@@ -8,20 +8,39 @@
     android:background="@drawable/widget_background">
 
     <TextView
+        android:id="@+id/tv_source_badge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Waxing Crescent"
+        android:textSize="9sp"
+        android:textColor="#AAB4C5E4"
+        android:layout_marginBottom="4dp" />
+
+    <TextView
         android:id="@+id/tv_hijri_day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="1"
-        android:textSize="40sp"
+        android:textSize="52sp"
         android:textColor="#FFFFFFFF" />
+
+    <TextView
+        android:id="@+id/tv_hijri_month_ar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Muharram"
+        android:textSize="13sp"
+        android:textColor="#88B4C5E4"
+        android:layout_marginTop="2dp" />
 
     <TextView
         android:id="@+id/tv_hijri_month"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Muharram"
-        android:textSize="16sp"
-        android:textColor="#CCFFFFFF" />
+        android:textSize="14sp"
+        android:textColor="#DDFFFFFF"
+        android:layout_marginTop="2dp" />
 
     <TextView
         android:id="@+id/tv_hijri_year"
@@ -29,15 +48,16 @@
         android:layout_height="wrap_content"
         android:text="1446 AH"
         android:textSize="12sp"
-        android:textColor="#88FFFFFF" />
+        android:textColor="#88FFFFFF"
+        android:layout_marginTop="2dp" />
 
     <TextView
-        android:id="@+id/tv_hijri_month_ar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Muharram"
-        android:textSize="12sp"
-        android:textColor="#88FFFFFF" />
+        android:layout_width="28dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="#33CAC4D0"
+        android:text="" />
 
     <TextView
         android:id="@+id/tv_gregorian_date"
@@ -48,20 +68,13 @@
         android:textColor="#66FFFFFF" />
 
     <TextView
-        android:id="@+id/tv_source_badge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Loading"
-        android:textSize="9sp"
-        android:textColor="#66FFFFFF" />
-
-    <TextView
         android:id="@+id/loading_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Updating..."
         android:textSize="10sp"
         android:textColor="#66FFFFFF"
+        android:layout_marginTop="8dp"
         android:visibility="gone" />
 
 </LinearLayout>
