@@ -42,8 +42,8 @@ class HijriWidgetProvider : AppWidgetProvider() {
             appWidgetId: Int
         ) {
             val views = RemoteViews(context.packageName, R.layout.widget_layout)
+            // Only touch loading_indicator — don't touch views inside nested layouts
             views.setViewVisibility(R.id.loading_indicator, View.VISIBLE)
-            views.setViewVisibility(R.id.tv_source_badge, View.GONE)
             appWidgetManager.updateAppWidget(appWidgetId, views)
         }
 
@@ -112,6 +112,9 @@ class HijriWidgetProvider : AppWidgetProvider() {
         ) {
             val views = RemoteViews(context.packageName, R.layout.widget_layout)
 
+            // Hide loading indicator
+            views.setViewVisibility(R.id.loading_indicator, View.GONE)
+
             // Date fields
             views.setTextViewText(R.id.tv_hijri_day,      result.hijriDate.day.toString())
             views.setTextViewText(R.id.tv_hijri_month,     result.hijriMonthNameEn)
@@ -119,12 +122,12 @@ class HijriWidgetProvider : AppWidgetProvider() {
             views.setTextViewText(R.id.tv_hijri_year,      "${result.hijriDate.year} AH")
             views.setTextViewText(R.id.tv_gregorian_date,  GregorianFormatter.format(Calendar.getInstance()))
 
-            // Moon phase pill
+            // Moon phase pill — text label only, no emoji via RemoteViews
+            // (emoji set at runtime via RemoteViews crashes on Android 12)
             val moonData = MoonPhaseCalculator.calculate(result.hijriDate.day)
-            views.setTextViewText(R.id.tv_moon_emoji,   moonData.phase.emoji)
             views.setTextViewText(R.id.tv_source_badge, moonData.phase.nameEn)
 
-            // Illumination bar width
+            // Illumination bar width — API 31+ only
             if (Build.VERSION.SDK_INT >= 31) {
                 val density = context.resources.displayMetrics.density
                 val barWidthPx = (72 * density * moonData.illumination)
