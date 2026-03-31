@@ -30,11 +30,18 @@ class MoonArcView @JvmOverloads constructor(
         style = Paint.Style.FILL
     }
 
-    private val arcPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.argb(70, 190, 210, 255)
+    // Remaining (unvisited) arc — dashed and faint
+    private val arcRemainingPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.argb(45, 190, 210, 255)
         style = Paint.Style.STROKE
-        strokeWidth = 2f
-        pathEffect = DashPathEffect(floatArrayOf(12f, 8f), 0f)
+        strokeWidth = 1.5f
+        pathEffect = DashPathEffect(floatArrayOf(10f, 8f), 0f)
+    }
+
+    // Travelled arc trail — solid, glowing (shader set dynamically)
+    private val arcTrailPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.STROKE
+        strokeCap = Paint.Cap.ROUND
     }
 
     private val moonPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -68,7 +75,7 @@ class MoonArcView @JvmOverloads constructor(
         strokeWidth = 1.5f
     }
 
-    private val stars = mutableListOf<FloatArray>() // [x_frac, y_frac, radius, alpha]
+    private val stars = mutableListOf<FloatArray>()
 
     init {
         repeat(80) {
@@ -113,6 +120,7 @@ class MoonArcView @JvmOverloads constructor(
         drawIlluminationBar(canvas, w, h, data)
     }
 
+    // CHANGE 9 — last colour changed from #29456B to #0D1E38
     private fun drawSky(canvas: Canvas, w: Float, h: Float) {
         val shader = LinearGradient(
             0f, 0f, 0f, h,
@@ -120,7 +128,7 @@ class MoonArcView @JvmOverloads constructor(
                 Color.parseColor("#08111F"),
                 Color.parseColor("#10203A"),
                 Color.parseColor("#1A3152"),
-                Color.parseColor("#29456B")
+                Color.parseColor("#0D1E38")   // was #29456B — deeper navy, no horizon clash
             ),
             floatArrayOf(0f, 0.35f, 0.72f, 1f),
             Shader.TileMode.CLAMP
@@ -173,28 +181,69 @@ class MoonArcView @JvmOverloads constructor(
         return PointF(x, y)
     }
 
+    // CHANGE 8 — comet trail: travelled portion is solid+glowing, remaining is dashed+faint
     private fun drawArcPath(canvas: Canvas, w: Float, h: Float) {
         val horizonY = h * 0.82f
         val startX = w * 0.08f
         val endX = w * 0.92f
         val ctrl = getArcControlPoint(w, h)
+        val t = animatedProgress
 
-        val path = Path().apply {
+        // Full arc — dashed faint (always drawn underneath)
+        val fullPath = Path().apply {
             moveTo(startX, horizonY)
             quadTo(ctrl.x, ctrl.y, endX, horizonY)
         }
-        canvas.drawPath(path, arcPaint)
+        canvas.drawPath(fullPath, arcRemainingPaint)
 
-        val ticks = listOf(0.25f, 0.5f, 0.75f)
-        val tickPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = Color.argb(80, 255, 255, 255)
-            strokeWidth = 1.5f
+        // Travelled trail — solid glowing line from start up to moon's current position
+        if (t > 0.01f) {
+            val trailPath = Path()
+            trailPath.moveTo(startX, horizonY)
+
+            // Step along the bezier in small increments up to t
+            val steps = 40
+            for (i in 1..steps) {
+                val s = t * i.toFloat() / steps
+                val px = (1 - s) * (1 - s) * startX + 2f * (1 - s) * s * ctrl.x + s * s * endX
+                val py = (1 - s) * (1 - s) * horizonY + 2f * (1 - s) * s * ctrl.y + s * s * horizonY
+                trailPath.lineTo(px, py)
+            }
+
+            // Pass 1 — wide soft glow
+            arcTrailPaint.strokeWidth = 5f
+            arcTrailPaint.shader = LinearGradient(
+                startX, 0f, endX, 0f,
+                intArrayOf(
+                    Color.argb(0,   180, 200, 255),
+                    Color.argb(80,  200, 180, 255)
+                ),
+                null, Shader.TileMode.CLAMP
+            )
+            canvas.drawPath(trailPath, arcTrailPaint)
+
+            // Pass 2 — narrow bright core
+            arcTrailPaint.strokeWidth = 2f
+            arcTrailPaint.shader = LinearGradient(
+                startX, 0f, endX, 0f,
+                intArrayOf(
+                    Color.argb(0,   220, 210, 255),
+                    Color.argb(200, 220, 210, 255)
+                ),
+                null, Shader.TileMode.CLAMP
+            )
+            canvas.drawPath(trailPath, arcTrailPaint)
         }
 
-        for (t in ticks) {
-            val x = (1 - t) * (1 - t) * startX + 2f * (1 - t) * t * ctrl.x + t * t * endX
-            val y = (1 - t) * (1 - t) * horizonY + 2f * (1 - t) * t * ctrl.y + t * t * horizonY
-            canvas.drawCircle(x, y, 3f, tickPaint)
+        // Quarter tick marks
+        val tickPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.argb(70, 255, 255, 255)
+            strokeWidth = 1.5f
+        }
+        listOf(0.25f, 0.5f, 0.75f).forEach { s ->
+            val px = (1 - s) * (1 - s) * startX + 2f * (1 - s) * s * ctrl.x + s * s * endX
+            val py = (1 - s) * (1 - s) * horizonY + 2f * (1 - s) * s * ctrl.y + s * s * horizonY
+            canvas.drawCircle(px, py, 3f, tickPaint)
         }
     }
 
@@ -241,12 +290,17 @@ class MoonArcView @JvmOverloads constructor(
             }
             val craters = listOf(
                 floatArrayOf(-0.3f, -0.2f, 0.12f),
-                floatArrayOf(0.2f, 0.3f, 0.09f),
+                floatArrayOf(0.2f,  0.3f,  0.09f),
                 floatArrayOf(-0.1f, 0.35f, 0.07f),
                 floatArrayOf(0.35f, -0.1f, 0.08f),
             )
             for (c in craters) {
-                canvas.drawCircle(pos.x + c[0] * radius, pos.y + c[1] * radius, c[2] * radius, craterPaint)
+                canvas.drawCircle(
+                    pos.x + c[0] * radius,
+                    pos.y + c[1] * radius,
+                    c[2] * radius,
+                    craterPaint
+                )
             }
         }
     }
