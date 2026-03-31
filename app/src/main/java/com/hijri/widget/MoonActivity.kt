@@ -33,7 +33,9 @@ class MoonActivity : Activity() {
         val monthEn = HijriConverter.getMonthName(hijri.month)
         val monthAr = HijriConverter.getMonthNameAr(hijri.month)
 
-        tvHijriDate.text = "${hijri.day} $monthEn ${hijri.year} AH\n$monthAr"
+        tvHijriDate.text = "${hijri.day} $monthEn ${hijri.year} AH"
+        val tvHijriAr = findViewById<TextView>(R.id.tv_hijri_ar)
+        tvHijriAr.text = monthAr
         tvGreg.text = GregorianFormatter.format(now)
 
         moonArcView.moonData = MoonPhaseCalculator.calculate(hijri.day)
