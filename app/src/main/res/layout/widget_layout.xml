@@ -33,7 +33,7 @@
         android:textSize="52sp"
         android:textColor="@color/md_theme_onSurface"
         android:fontFamily="sans-serif-thin"
-        android:letterspacing="-0.03"/>
+        android:letterSpacing="-0.03"/>
 
     <TextView
         android:id="@+id/tv_hijri_month_ar"
