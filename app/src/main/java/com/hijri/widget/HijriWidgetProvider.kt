@@ -5,8 +5,6 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-import android.util.TypedValue
 import android.view.View
 import android.widget.RemoteViews
 import kotlinx.coroutines.*
@@ -42,7 +40,6 @@ class HijriWidgetProvider : AppWidgetProvider() {
             appWidgetId: Int
         ) {
             val views = RemoteViews(context.packageName, R.layout.widget_layout)
-            // Only touch loading_indicator — don't touch views inside nested layouts
             views.setViewVisibility(R.id.loading_indicator, View.VISIBLE)
             appWidgetManager.updateAppWidget(appWidgetId, views)
         }
@@ -112,28 +109,17 @@ class HijriWidgetProvider : AppWidgetProvider() {
         ) {
             val views = RemoteViews(context.packageName, R.layout.widget_layout)
 
-            // Hide loading indicator
             views.setViewVisibility(R.id.loading_indicator, View.GONE)
 
-            // Date fields
             views.setTextViewText(R.id.tv_hijri_day,      result.hijriDate.day.toString())
             views.setTextViewText(R.id.tv_hijri_month,     result.hijriMonthNameEn)
             views.setTextViewText(R.id.tv_hijri_month_ar,  result.hijriMonthNameAr)
             views.setTextViewText(R.id.tv_hijri_year,      "${result.hijriDate.year} AH")
             views.setTextViewText(R.id.tv_gregorian_date,  GregorianFormatter.format(Calendar.getInstance()))
 
-            // Moon phase pill — text label only, no emoji via RemoteViews
-            // (emoji set at runtime via RemoteViews crashes on Android 12)
+            // Moon phase name as plain text
             val moonData = MoonPhaseCalculator.calculate(result.hijriDate.day)
             views.setTextViewText(R.id.tv_source_badge, moonData.phase.nameEn)
-
-            // Illumination bar width — API 31+ only
-            if (Build.VERSION.SDK_INT >= 31) {
-                val density = context.resources.displayMetrics.density
-                val barWidthPx = (72 * density * moonData.illumination)
-                    .toInt().coerceAtLeast((4 * density).toInt()).toFloat()
-                views.setViewLayoutWidth(R.id.v_illum_bar, barWidthPx, TypedValue.COMPLEX_UNIT_PX)
-            }
 
             // TAP → open MoonActivity
             val moonIntent = Intent(context, MoonActivity::class.java).apply {
@@ -146,6 +132,6 @@ class HijriWidgetProvider : AppWidgetProvider() {
             views.setOnClickPendingIntent(R.id.widget_root, moonPending)
 
             appWidgetManager.updateAppWidget(appWidgetId, views)
-        }                  // closes applyResult()
-    }                      // closes companion object
-}                          // closes HijriWidgetProvider class
+        }
+    }
+}
