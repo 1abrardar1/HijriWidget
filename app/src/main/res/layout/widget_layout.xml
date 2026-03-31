@@ -8,22 +8,37 @@
     android:padding="14dp"
     android:background="@drawable/widget_background">
 
+    <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="@drawable/phase_pill_bg"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
+    android:paddingTop="3dp"
+    android:paddingBottom="3dp"
+    android:layout_marginBottom="6dp">
+
+    <TextView
+        android:id="@+id/tv_moon_emoji"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🌒"
+        android:textSize="11sp"
+        android:layout_marginEnd="4dp" />
+
     <TextView
         android:id="@+id/tv_source_badge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Verified"
-        android:textStyle="bold"
-        android:textSize="10sp"
-        android:textColor="@color/md_theme_onSecondaryContainer"
-        android:background="#664A4458"
-        android:paddingLeft="8dp"
-        android:paddingTop="3dp"
-        android:paddingRight="8dp"
-        android:paddingBottom="3dp"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone"
-        android:fontFamily="sans-serif-medium" />
+        android:text="Waxing Crescent"
+        android:textSize="9sp"
+        android:textColor="#AAB4C5E4"
+        android:fontFamily="sans-serif-medium"
+        android:letterSpacing="0.06" />
+
+</LinearLayout>
 
     <TextView
         android:id="@+id/tv_hijri_day"
@@ -41,7 +56,7 @@
         android:layout_height="wrap_content"
         android:text="مُحَرَّم"
         android:textSize="13sp"
-        android:textColor="@color/md_theme_tertiary"
+        android:textColor="#88B4C5E4"
         android:layout_marginTop="2dp"
         android:fontFamily="sans-serif" />
 
@@ -50,11 +65,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Muharram"
-        android:textStyle="bold"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textColor="@color/md_theme_onSurface"
         android:layout_marginTop="2dp"
-        android:fontFamily="sans-serif-medium" />
+        android:fontFamily="sans-serif-medium"
+        android:letterSpacing="0.05"/>
 
     <TextView
         android:id="@+id/tv_hijri_year"
@@ -68,7 +83,7 @@
 
     <TextView
         android:id="@+id/tv_divider"
-        android:layout_width="match_parent"
+        android:layout_width="28dp"
         android:layout_height="1dp"
         android:text=""
         android:background="#33CAC4D0"
@@ -84,16 +99,19 @@
         android:textColor="@color/md_theme_onSurfaceVariant"
         android:fontFamily="sans-serif" />
 
-    <TextView
-        android:id="@+id/tv_moon_phase_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="WAXING GIBBOUS"
-        android:textStyle="bold"
-        android:textSize="11sp"
-        android:textColor="@color/md_theme_primary"
-        android:layout_marginTop="6dp"
-        android:fontFamily="sans-serif-medium" />
+    <FrameLayout
+    android:layout_width="72dp"
+    android:layout_height="3dp"
+    android:layout_marginTop="7dp"
+    android:background="#1AFFFFFF">
+
+    <View
+        android:id="@+id/v_illum_bar"
+        android:layout_width="0dp"
+        android:layout_height="3dp"
+        android:background="@drawable/illum_bar_fill" />
+
+</FrameLayout>
 
     <TextView
         android:id="@+id/loading_indicator"
