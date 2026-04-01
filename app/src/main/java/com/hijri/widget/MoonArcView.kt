@@ -240,7 +240,7 @@ class MoonArcView @JvmOverloads constructor(
     private fun drawMoon(canvas: Canvas, w: Float, h: Float, data: MoonPhaseCalculator.MoonData) {
         val pos = getMoonPosition(w, h)
         // Moon grows from 0.065w (new moon) to 0.105w (full moon)
-        val radius = w * (0.065f + 0.04f * data.hijriday / 30f))
+        val radius = w * (0.065f + 0.04f * data.hijriDay / 30f))
         val illum = data.illumination
 
         val glowRadius = radius * (1.6f + illum * 0.8f)
