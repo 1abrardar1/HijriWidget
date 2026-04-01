@@ -30,7 +30,6 @@ class MoonArcView @JvmOverloads constructor(
         style = Paint.Style.FILL
     }
 
-    // Remaining (unvisited) arc — dashed and faint
     private val arcRemainingPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.argb(45, 190, 210, 255)
         style = Paint.Style.STROKE
@@ -38,7 +37,6 @@ class MoonArcView @JvmOverloads constructor(
         pathEffect = DashPathEffect(floatArrayOf(10f, 8f), 0f)
     }
 
-    // Travelled arc trail — solid, glowing (shader set dynamically)
     private val arcTrailPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
         strokeCap = Paint.Cap.ROUND
@@ -120,7 +118,6 @@ class MoonArcView @JvmOverloads constructor(
         drawIlluminationBar(canvas, w, h, data)
     }
 
-    // CHANGE 9 — last colour changed from #29456B to #0D1E38
     private fun drawSky(canvas: Canvas, w: Float, h: Float) {
         val shader = LinearGradient(
             0f, 0f, 0f, h,
@@ -128,7 +125,7 @@ class MoonArcView @JvmOverloads constructor(
                 Color.parseColor("#08111F"),
                 Color.parseColor("#10203A"),
                 Color.parseColor("#1A3152"),
-                Color.parseColor("#0D1E38")   // was #29456B — deeper navy, no horizon clash
+                Color.parseColor("#0D1E38")
             ),
             floatArrayOf(0f, 0.35f, 0.72f, 1f),
             Shader.TileMode.CLAMP
@@ -181,7 +178,6 @@ class MoonArcView @JvmOverloads constructor(
         return PointF(x, y)
     }
 
-    // CHANGE 8 — comet trail: travelled portion is solid+glowing, remaining is dashed+faint
     private fun drawArcPath(canvas: Canvas, w: Float, h: Float) {
         val horizonY = h * 0.82f
         val startX = w * 0.08f
@@ -189,19 +185,16 @@ class MoonArcView @JvmOverloads constructor(
         val ctrl = getArcControlPoint(w, h)
         val t = animatedProgress
 
-        // Full arc — dashed faint (always drawn underneath)
         val fullPath = Path().apply {
             moveTo(startX, horizonY)
             quadTo(ctrl.x, ctrl.y, endX, horizonY)
         }
         canvas.drawPath(fullPath, arcRemainingPaint)
 
-        // Travelled trail — solid glowing line from start up to moon's current position
         if (t > 0.01f) {
             val trailPath = Path()
             trailPath.moveTo(startX, horizonY)
 
-            // Step along the bezier in small increments up to t
             val steps = 40
             for (i in 1..steps) {
                 val s = t * i.toFloat() / steps
@@ -210,7 +203,6 @@ class MoonArcView @JvmOverloads constructor(
                 trailPath.lineTo(px, py)
             }
 
-            // Pass 1 — wide soft glow
             arcTrailPaint.strokeWidth = 5f
             arcTrailPaint.shader = LinearGradient(
                 startX, 0f, endX, 0f,
@@ -222,7 +214,6 @@ class MoonArcView @JvmOverloads constructor(
             )
             canvas.drawPath(trailPath, arcTrailPaint)
 
-            // Pass 2 — narrow bright core
             arcTrailPaint.strokeWidth = 2f
             arcTrailPaint.shader = LinearGradient(
                 startX, 0f, endX, 0f,
@@ -235,7 +226,6 @@ class MoonArcView @JvmOverloads constructor(
             canvas.drawPath(trailPath, arcTrailPaint)
         }
 
-        // Quarter tick marks
         val tickPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = Color.argb(70, 255, 255, 255)
             strokeWidth = 1.5f
@@ -249,7 +239,8 @@ class MoonArcView @JvmOverloads constructor(
 
     private fun drawMoon(canvas: Canvas, w: Float, h: Float, data: MoonPhaseCalculator.MoonData) {
         val pos = getMoonPosition(w, h)
-        val radius = w * 0.085f
+        // Moon grows from 0.065w (new moon) to 0.105w (full moon)
+        val radius = w * (0.065f + 0.04f * data.illumination)
         val illum = data.illumination
 
         val glowRadius = radius * (1.6f + illum * 0.8f)
@@ -339,15 +330,7 @@ class MoonArcView @JvmOverloads constructor(
         canvas.drawRoundRect(pillRect, pillH / 2f, pillH / 2f, pillFillPaint)
         canvas.drawRoundRect(pillRect, pillH / 2f, pillH / 2f, pillStrokePaint)
         canvas.drawText(phaseName, centerX, pillTop + pillH * 0.66f, labelPaint)
-
-        subLabelPaint.textSize = w * 0.032f
-        subLabelPaint.color = Color.argb(210, 220, 226, 245)
-        canvas.drawText(
-            "Day ${data.hijriDay} of 30",
-            centerX,
-            h * 0.06f,
-            subLabelPaint
-        )
+        // "Day X of 30" label removed — info card in activity_moon.xml shows this already
     }
 
     private fun drawIlluminationBar(canvas: Canvas, w: Float, h: Float, data: MoonPhaseCalculator.MoonData) {
